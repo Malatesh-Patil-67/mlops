@@ -1,2 +1,2 @@
 # mlops
-trying out firsl mlops project
+trying out first mlops project

@@ -18,7 +18,38 @@ jobs:
         with:
           python-version: 3.x
 
+      - name: Build Docker image
+        run: |
+          docker build -t my-flask-app .
+          docker tag my-flask-app:latest docker.pkg.github.com/${{ github.repository }}/my-flask-app:latest
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Push Docker image to GitHub Container Registry
+        run: |
+          docker push docker.pkg.github.com/${{ github.repository }}/my-flask-app:latest
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+     name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
 
       - name: Build Docker image
         run: |
@@ -29,12 +60,7 @@ jobs:
 
       - name: Push Docker image to GitHub Container Registry
         run: |
-<<<<<<< HEAD
           docker push docker.pkg.github.com/${{ github.repository }}/my-flask-app:latest
-=======
-            docker push docker.pkg.github.com/${{ github.repository }}/my-flask-app:latest
->>>>>>> 57efa1e (latestt)
-
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 

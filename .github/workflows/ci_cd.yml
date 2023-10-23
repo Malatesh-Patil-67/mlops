@@ -22,13 +22,21 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build Docker image
-        run: docker build -t my-flask-app .
+        run: |
+          docker build -t my-flask-app .
+          docker tag my-flask-app:latest docker.pkg.github.com/${{ github.repository }}/my-flask-app:latest
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image to GitHub Container Registry
-        run: docker push docker.pkg.github.com/${{ github.repository }}/my-flask-app:latest
-
-      - name: Deploy to Server
         run: |
-          # Replace with your deployment steps
-          # e.g., SSH into the server, pull the latest code, and restart the Docker container
-          ssh user@server 'docker pull docker.pkg.github.com/owner/repo/my-flask-app:latest && docker-compose up -d'
+          docker push docker.pkg.github.com/${{ github.repository }}/my-flask-app:latest
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Deploy to Production
+        run: |
+          # Add deployment commands here
+          # E.g., Kubernetes apply or deploy to a cloud service
+        env:
+          DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}

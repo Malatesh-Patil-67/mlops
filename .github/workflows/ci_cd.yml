@@ -29,7 +29,11 @@ jobs:
 
       - name: Push Docker image to GitHub Container Registry
         run: |
+<<<<<<< HEAD
           docker push docker.pkg.github.com/${{ github.repository }}/my-flask-app:latest
+=======
+            docker push docker.pkg.github.com/${{ github.repository }}/my-flask-app:latest
+>>>>>>> 57efa1e (latestt)
 
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

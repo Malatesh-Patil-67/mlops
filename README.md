@@ -26,7 +26,7 @@ Dockerization:
 Created a Dockerfile to containerize the Flask application.
 
 Built a Docker image.
-Ran a Docker container for the Flask application.
+RUN a Docker container for the Flask application.
 
 
 Continuous Integration/Continuous Deployment (CI/CD):
